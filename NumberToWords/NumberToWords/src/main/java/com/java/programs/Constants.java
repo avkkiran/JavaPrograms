@@ -1,7 +1,7 @@
 package com.java.programs;
 
 public interface Constants {
-	static final String[] specialNames = {
+	static final String[] aboveHundredNames = {
 	        "",
 	        " thousand",
 	        " million",
@@ -24,7 +24,7 @@ public interface Constants {
 	        " ninety"
 	    };
 	    
-	    static final String[] numNames = {
+	    static final String[] belowTwentyNames = {
 	        "",
 	        " one",
 	        " two",
@@ -46,4 +46,14 @@ public interface Constants {
 	        " eighteen",
 	        " nineteen"
 	    };
+	    
+	    static final String NO_EXCEPTION = "Exception block should not be executed";
+	    
+	    static final String EXCEPTION_SHOULD_OCCUR = "Exception should occur";
+	    
+	    static final String EXCEEDED_SUPPORTED_NUM_RANGE_EXCEPTION = "Please provide a number below or equal to 999999999";
+	    
+	    static final String EXCEEDED_NEGATIVE_SUPPORTED_NUM_RANGE_EXCEPTION = "Please provide a number above or equal to -999999999";
+	    
+	    static final String AND_CLAUSE = " and";
 }
