@@ -1,44 +1,48 @@
 package com.java.programs;
 
-public class NumberToWords implements Constants {
+public class NumberToWords implements Constants, INumberToWords {
     public String convertLessThanOneThousand(int number) {
-        String current = null;
+        String currentNumberInWords = null;
         
         if (number % 100 < 20){
-            current = belowTwentyNames[number % 100];
+            currentNumberInWords = belowTwentyNames[number % 100];
             number /= 100;
         }
         else {
-            current = belowTwentyNames[number % 10];
+            currentNumberInWords = belowTwentyNames[number % 10];
             number /= 10;
             
-            current = tensNames[number % 10] + current;
+            currentNumberInWords = tensNames[number % 10] + currentNumberInWords;
             number /= 10;
         }
         if (number == 0) 
-        	return current;
-        return belowTwentyNames[number] + " hundred" + AND_CLAUSE + current;
+        	return currentNumberInWords;
+        return belowTwentyNames[number] + " hundred" + AND_CLAUSE + currentNumberInWords;
     }
     
-    public String convert(int number) throws Exception {
-        if (number == 0) { 
-        	return "zero"; 
-        }
-        
-        String prefix = "";
-        
-        if(number > 999999999) {
+    public void checkPreConditions(int number) throws Exception {
+    	if(number > 999999999) {
         	throw new Exception(EXCEEDED_SUPPORTED_NUM_RANGE_EXCEPTION);
         }
         if(number < -999999999) {
         	throw new Exception(EXCEEDED_NEGATIVE_SUPPORTED_NUM_RANGE_EXCEPTION);
         }
+    }
+    
+    public String convert(int number) throws Exception {
+        if (number == 0) {
+        	return "zero"; 
+        }
+        checkPreConditions(number);
+        
+        String prefix = "";
+        
         if (number < 0) {
             number = -number;
             prefix = "negative";
         } 
         
-        String current = "";
+        String currentNumberInWords = "";
         int place = 0;
         
         try {
@@ -46,12 +50,12 @@ public class NumberToWords implements Constants {
                 int n = number % 1000;
                 if (n != 0){
                     String s = convertLessThanOneThousand(n);
-                    current = s + aboveHundredNames[place++] + current;
+                    currentNumberInWords = s + aboveHundredNames[place++] + currentNumberInWords;
                 }
                 number /= 1000;
             } while (number > 0);
-        	if(current.endsWith(AND_CLAUSE)) {
-            	current = current.replace(AND_CLAUSE, "");
+        	if(currentNumberInWords.endsWith(AND_CLAUSE)) {
+            	currentNumberInWords = currentNumberInWords.replace(AND_CLAUSE, "");
             }
         } catch(ArithmeticException ae) {
         	throw new ArithmeticException("Arithmetic exception while converting number to words. The exception is: " + ae.getMessage());
@@ -59,6 +63,6 @@ public class NumberToWords implements Constants {
         	throw new Exception("Failed to convert number to words. The exception is: " + e.getMessage());
         }        
         
-        return (prefix + current).trim();
+        return (prefix + currentNumberInWords).trim();
     }
 }

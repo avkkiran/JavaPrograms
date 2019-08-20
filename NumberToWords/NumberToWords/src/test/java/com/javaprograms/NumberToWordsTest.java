@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import com.java.programs.Constants;
+import com.java.programs.INumberToWords;
 import com.java.programs.NumberToWords;
 
 /**
@@ -14,7 +15,7 @@ import com.java.programs.NumberToWords;
  */
 public class NumberToWordsTest implements Constants
 {
-	NumberToWords numberToWords = new NumberToWords();
+	INumberToWords numberToWords = new NumberToWords();
 	String numberInWord = null;
 	
     @Test
@@ -189,6 +190,28 @@ public class NumberToWordsTest implements Constants
     {
 		try {
 			numberInWord = numberToWords.convert(-1000000000);
+			fail(EXCEPTION_SHOULD_OCCUR);
+		} catch (Exception e) {
+			assertEquals(EXCEEDED_NEGATIVE_SUPPORTED_NUM_RANGE_EXCEPTION, e.getMessage());
+		}
+    }
+    
+    @Test
+    public void testErrorNumberGreaterThanRangePreconditions()
+    {
+		try {
+			numberToWords.checkPreConditions(1000000000);
+			fail(EXCEPTION_SHOULD_OCCUR);
+		} catch (Exception e) {
+			assertEquals(EXCEEDED_SUPPORTED_NUM_RANGE_EXCEPTION, e.getMessage());
+		}
+    }
+    
+    @Test
+    public void testErrorNegativeNumberLesserThanRangePreconditions()
+    {
+		try {
+			numberToWords.checkPreConditions(-1000000000);
 			fail(EXCEPTION_SHOULD_OCCUR);
 		} catch (Exception e) {
 			assertEquals(EXCEEDED_NEGATIVE_SUPPORTED_NUM_RANGE_EXCEPTION, e.getMessage());
